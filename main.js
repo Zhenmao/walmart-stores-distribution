@@ -133,11 +133,39 @@ Promise.all([
 	//// Hexbin Area Map ///////////////////////////////////////
 	////////////////////////////////////////////////////////////
 	function renderHexbinAreaMap() {
+		const hexbin = d3
+			.hexbin()
+			.x(d => d[0])
+			.y(d => d[1])
+			.extent([[0, 0], [width, height]])
+			.radius(10);
+
+		const bins = hexbin(data);
+
+		const color = d3
+			.scaleSequential(colorInterpolator)
+			.domain([0, d3.max(bins, d => d.length) / 2]);
+
+		const radius = d3
+			.scaleSqrt()
+			.domain([0, d3.max(bins, d => d.length)])
+			.range([0, hexbin.radius() * Math.SQRT2]);
+
 		const svg = d3
 			.select(".hexbin-area-map")
 			.attr("viewBox", [0, 0, width + margin * 2, height + margin * 2])
 			.append("g")
 			.attr("transform", `translate(${margin},${margin})`);
+
+		svg
+			.append("g")
+			.attr("stroke", "#fff")
+			.selectAll("path")
+			.data(bins)
+			.join("path")
+			.attr("transform", d => `translate(${d.x},${d.y})`)
+			.attr("d", d => hexbin.hexagon(radius(d.length)))
+			.attr("fill", d => color(d.length));
 
 		svg.append("use").attr("xlink:href", "#us-path");
 	}
