@@ -20,7 +20,8 @@ Promise.all([
 	const height = 600;
 	const margin = 32;
 
-	const scheme = d3.schemeGnBu;
+	const colorScheme = d3.schemeGnBu;
+	const colorInterpolator = d3.interpolateGnBu;
 
 	renderScatterMap();
 	renderContourMap();
@@ -69,7 +70,7 @@ Promise.all([
 			.size([width, height])
 			.thresholds(9)(data);
 
-		const color = scheme[contours.length];
+		const color = colorScheme[contours.length];
 
 		const svg = d3
 			.select(".contour-map")
@@ -96,11 +97,34 @@ Promise.all([
 	//// Hexbin Color Map //////////////////////////////////////
 	////////////////////////////////////////////////////////////
 	function renderHexbinColorMap() {
+		const hexbin = d3
+			.hexbin()
+			.x(d => d[0])
+			.y(d => d[1])
+			.extent([[0, 0], [width, height]])
+			.radius(10);
+
+		const bins = hexbin(data);
+
+		const color = d3
+			.scaleSequential(colorInterpolator)
+			.domain([0, d3.max(bins, d => d.length) / 2]);
+
 		const svg = d3
 			.select(".hexbin-color-map")
 			.attr("viewBox", [0, 0, width + margin * 2, height + margin * 2])
 			.append("g")
 			.attr("transform", `translate(${margin},${margin})`);
+
+		svg
+			.append("g")
+			.attr("stroke", "#fff")
+			.selectAll("path")
+			.data(bins)
+			.join("path")
+			.attr("d", hexbin.hexagon())
+			.attr("transform", d => `translate(${d.x},${d.y})`)
+			.attr("fill", d => color(d.length));
 
 		svg.append("use").attr("xlink:href", "#us-path");
 	}
