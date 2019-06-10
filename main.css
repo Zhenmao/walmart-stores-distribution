@@ -1,0 +1,17 @@
+.container {
+	margin: 0 24px;
+}
+
+.row {
+	width: 100%;
+	display: flex;
+	flex-flow: row wrap;
+}
+
+.column {
+	flex: 1 1 480px;
+}
+
+.chart {
+	padding: 16px;
+}

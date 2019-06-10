@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>Walmart Stores Distribution</title>
+		<link rel="stylesheet" href="main.css" />
+		<script src="https://d3js.org/d3.v5.min.js"></script>
+		<script src="https://unpkg.com/topojson@3"></script>
+		<script src="https://d3js.org/d3-hexbin.v0.2.min.js"></script>
+	</head>
+	<body>
+		<div class="container">
+			<div class="row">
+				<div class="column chart scatter">
+					<svg class="scatter-map"></svg>
+				</div>
+				<div class="column chart contour">
+					<svg class="contour-map"></svg>
+				</div>
+			</div>
+			<div class="row">
+				<div class="column chart hexbin-color">
+					<svg class="hexbin-color-map"></svg>
+				</div>
+				<div class="column chart hexbin-area">
+					<svg class="hexbin-area-map"></svg>
+				</div>
+			</div>
+		</div>
+		<script src="main.js"></script>
+	</body>
+</html>
