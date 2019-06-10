@@ -18,7 +18,7 @@ Promise.all([
 	////////////////////////////////////////////////////////////
 	const width = 960;
 	const height = 600;
-	const margin = 32;
+	const margin = 12;
 
 	const colorScheme = d3.schemeGnBu;
 	const colorInterpolator = d3.interpolateGnBu;

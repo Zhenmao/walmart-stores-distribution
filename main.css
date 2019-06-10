@@ -10,6 +10,10 @@ h3 {
 	color: #041e41;
 }
 
+h3 {
+	margin-bottom: 0;
+}
+
 .intro {
 	max-width: 800px;
 	margin: auto;
